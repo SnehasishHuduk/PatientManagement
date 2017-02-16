@@ -1,0 +1,127 @@
+<resources>
+    <string name="app_name">Patient Management</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="openDrawer">open_drawer</string>
+    <string name="closeDrawer">close_drawer</string>
+
+    <!-- Navigation Drawer menu labels -->
+    <string name="nav_home">Home</string>
+    <string name="nav_photos">Appointment</string>
+    <string name="nav_movies">Patient Management</string>
+    <string name="nav_notifications">Notifications</string>
+    <string name="nav_settings">Settings</string>
+    <string name="nav_about_us">About Us</string>
+    <string name="nav_profile">Profile</string>
+
+    <!-- Toolbar titles when navigation menu item is selected -->
+    <string-array name="nav_item_activity_titles">
+        <item>Home</item>
+        <item>Appointment</item>
+        <item>Patient Management</item>
+        <item>Notifications</item>
+        <item>Settings</item>
+        <item>Profile</item>
+    </string-array>
+    <string-array name="android_dropdown_arrays">
+        <item>Eye</item>
+        <item>Orthopedics</item>
+        <item>Dentist</item>
+        <item>Cardiology</item>
+        <item>Neurology</item>
+    </string-array>
+
+    <string name="activity_title_about_us">About Us</string>
+    <string name="activity_title_privacy_policy">Privacy Policy</string>
+    <string name="action_clear_all">Clear All</string>
+    <string name="action_logout">Logout</string>
+    <string name="action_mark_all_read">Mark All as Read</string>
+    <string name="privacy_policy">Privacy Policy</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Profile_fragment">Hello Profile fragment</string>
+
+
+
+
+
+    <string-array name="doctor_name">
+        <item>"Dr. Ankita das"</item>
+        <item>"Dr. Anirban Chatterjee"</item>
+        <item>"Dr. Chandra Behany"</item>
+        <item>"Dr. Dipa karmakar"</item>
+        <item>"Dr. Chandrni Pal"</item>
+        <item>"Dr. Semanti saha"</item>
+        <item>"Dr. Sanjay Sarkar"</item>
+        <item>"Dr. Somnath Mukherjee"</item>
+        <item>"Dr. Bristi das"</item>
+        <item>"Dr. Rachana Banerjee"</item>
+        <item>"Dr. Supriyo Ghatak"</item>
+
+    </string-array>
+
+    <string-array name="doctor_email">
+        <item>"ankitadas@gmail.com"</item>
+        <item>"anirbanchatterjee@yahoo.com"</item>
+        <item>"chandrabehany@gmail.com"</item>
+        <item>"dipakarmakar@yahoo.com"</item>
+        <item>"chandrnipal@gmail.com"</item>
+        <item>"semantisaha@gmail.com"</item>
+        <item>"sanjaysarkar@yahoo.com"</item>
+        <item>"somnathmukherjee@gmail.com"</item>
+        <item>"bristidas@yahoo.com"</item>
+        <item>"rachanabanerjee@gmail.com"</item>
+        <item>"supriyoghatak@gmail.com"</item>
+
+    </string-array>
+
+
+
+    <string-array name="doctor_phone">
+        <item>"9874308698"</item>
+        <item>"8013968745"</item>
+        <item>"7970896381"</item>
+        <item>"9038648572"</item>
+        <item>"9734896342"</item>
+        <item>"9836200045"</item>
+        <item>"9874325874"</item>
+        <item>"9874983985"</item>
+        <item>"9038124578"</item>
+        <item>"9744134679"</item>
+        <item>"9863251419"</item>
+
+    </string-array>
+
+
+
+    <string-array name="doctor_qualification">
+        <item>"MBBS"</item>
+        <item>"FELLOW IN ENDOSCOPY"</item>
+        <item>"Dip Lap Surg"</item>
+        <item>"Plastic Surgery"</item>
+        <item>"MBBS, MS, M.Ch"</item>
+        <item>"DM (nephrology)"</item>
+        <item>"M.B.B.S, D.Orth, MS(Orth)"</item>
+        <item>"MBBS, DGO, DNB"</item>
+        <item>"MD (Radiology)"</item>
+        <item>"BDS, M.D.S. (Orthodontist)"</item>
+        <item>"ENT and Surgery"</item>
+
+    </string-array>
+
+
+
+
+
+    <string name="action_settings">Settings</string>
+    <string name="text_content">Demo Details </string>
+
+    <string name="user_name">User1</string>
+
+
+
+
+
+
+</resources>

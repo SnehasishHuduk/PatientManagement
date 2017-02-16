@@ -1,0 +1,70 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.samin.paitientmanagement.fragment.HomeFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <ImageView
+        android:id="@+id/image1"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:src="@drawable/home_doctor"
+        android:scaleType="fitXY"
+        android:layout_margin="2dp"
+        android:layout_alignParentTop="true" />
+
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/text1"
+        android:textSize="24sp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="We Care for You"
+        android:layout_below="@+id/image1"/>
+    <TextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/home_txt1"
+        android:layout_margin="4dp"
+        android:padding="8dp"
+        android:textSize="18sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tata Main Hospital, the Medical Division of Tata Steel and its nine dispensaries at Jamshedpur provide curative healthcare services to
+
+         the employees of Tata Steel and their families free of cost. Apart from TMH and the dispensaries, out-location hospitals are located at Jamadoba, Noamundi and Sukhinda Mines and West Bokaro Collieries. TMH also extends its facilities to non-entitled patients from Jamshedpur and its
+
+        surrounding area.Tata Main Hospital, the Medical Division of Tata Steel and its nine dispensaries at Jamshedpur provide curative healthcare services to the employees of Tata Steel and their families free of cost.
+
+
+        Apart from TMH and the dispensaries, out-location hospitals are located at Jamadoba, Noamundi and Sukhinda Mines and West Bokaro Collieries. TMH also extends its facilities to non-entitled patients from Jamshedpur
+
+        and its surrounding area.Tata Main Hospital, the Medical Division of Tata Steel and its nine dispensaries at Jamshedpur provide curative healthcare services to the employees of Tata Steel and their families free of cost. Apart from TMH and the dispensaries, out-location hospitals are located at Jamadoba, Noamundi and Sukhinda Mines and West Bokaro Collieries.
+
+
+         TMH also extends its facilities to non-entitled patients from Jamshedpur and its surrounding area.Tata Main Hospital,
+
+         the Medical Division of Tata Steel and its nine dispensaries at Jamshedpur provide curative healthcare services to the employees of Tata Steel and their families free of cost. Apart from TMH and the dispensaries, out-location hospitals are located at Jamadoba, Noamundi and
+
+          Sukhinda Mines and West Bokaro Collieries. TMH also extends its facilities to non-entitled patients from Jamshedpur and its surrounding area.Tata Main Hospital, the Medical Division of Tata Steel and its nine dispensaries at Jamshedpur provide curative healthcare services to the employees of Tata Steel and their families free of cost.
+          Apart from TMH and the dispensaries, out-location hospitals are located at
+
+          Jamadoba, Noamundi and Sukhinda Mines and West Bokaro Collieries. TMH also extends its facilities to non-entitled patients from Jamshedpur and its surrounding area.
+
+
+         Tata Main Hospital, the Medical Division of Tata Steel and its nine dispensaries at Jamshedpur provide curative healthcare services to the employees of Tata Steel and their families free of cost. Apart from TMH and the dispensaries, out-location hospitals are located at Jamadoba, Noamundi and Sukhinda Mines and West Bokaro Collieries. TMH also extends its facilities to non-entitled patients from Jamshedpur and its surrounding area."
+        android:layout_below="@+id/text1"
+        android:fontFamily="@string/abc_font_family_display_3_material"
+        android:gravity="center"/>
+
+
+
+</RelativeLayout>
+</ScrollView>

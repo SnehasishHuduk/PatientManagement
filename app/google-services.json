@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "907920601527",
+    "firebase_url": "https://patient-management-11e26.firebaseio.com",
+    "project_id": "patient-management-11e26",
+    "storage_bucket": "patient-management-11e26.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:907920601527:android:6821f1438bac5fb9",
+        "android_client_info": {
+          "package_name": "com.example.samin.paitientmanagement"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "907920601527-6ql9hrd03304njo9h2hhj9ph5d1mgjcv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzEhPASPs2TGAfGY3WKj9wJ6hewBOX6rI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,45 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+
+    android:orientation="vertical"
+    android:background="#EEEEEE"
+    tools:context="com.example.samin.paitientmanagement.fragment.AppointmentFragment">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp">
+
+        <TextView
+            android:id="@+id/tv_department"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="Department"
+            android:textSize="20sp"
+            android:layout_weight="2" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/android_dropdown_arrays"
+            android:padding="5dp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/recyclerView">
+
+    </android.support.v7.widget.RecyclerView>
+</LinearLayout>
