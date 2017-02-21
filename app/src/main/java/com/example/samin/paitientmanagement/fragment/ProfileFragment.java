@@ -275,13 +275,16 @@ public class ProfileFragment extends Fragment{
             user_image.setImageURI(mImageUri);
 
             StorageReference filePath= mStorage.child("User_Images").child(mImageUri.getLastPathSegment());
+            
+            //the Progress bar Should be Here
+            mProgressDialog.setMessage("Uploading Details....");
+                    mProgressDialog.show();
 
             filePath.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                    mProgressDialog.setMessage("Uploading Details....");
-                    mProgressDialog.show();
+                    
                     Uri downloadUri  = taskSnapshot.getDownloadUrl();
 
 
