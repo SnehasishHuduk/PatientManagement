@@ -54,11 +54,6 @@ public class MainActivity extends AppCompatActivity {
     // index to identify current nav menu item
     public static int navItemIndex = 0;
 
-
-
-    //personal Details reference
-    private EditText user_name, user_phone, user_address, user_age, user_height, user_weight, user_bloodgroup;
-
     // tags used to attach the fragments
     private static final String TAG_HOME = "home";
     private static final String TAG_APPOINTMENT = "appointment";
@@ -95,23 +90,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        //initialize personal Details fields
-//        user_name= (EditText) findViewById(R.id.profile_edit_name);
-//        user_phone= (EditText) findViewById(R.id.profile_edit_phone);
-//        user_address= (EditText)findViewById(R.id.profile_edit_address);
-//        user_age= (EditText) findViewById(R.id.profile_edit_age);
-//        user_height= (EditText)findViewById(R.id.profile_edit_height);
-//        user_weight= (EditText) findViewById(R.id.profile_edit_weight);
-//        user_bloodgroup= (EditText) findViewById(R.id.profile_edit_bloodgroup);
-//        user_name.setText("Null");
-//        user_phone.setText("Null");
-//        user_address.setText("Null");
-//        user_age.setText("Null");
-//        user_height.setText("Null");
-//        user_weight.setText("Null");
-//        user_bloodgroup.setText("Null");
-
-
 
         mHandler = new Handler();
 
@@ -137,8 +115,9 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if (user != null) {
             txtWebsite.setText(user.getEmail());
+            Toast.makeText(this, "Welcome  "+user.getEmail(), Toast.LENGTH_LONG).show();
         }
-        //Toast.makeText(this, "Welcome"+user, Toast.LENGTH_LONG).show();
+
 
 
         // initializing navigation menu

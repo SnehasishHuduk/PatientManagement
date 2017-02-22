@@ -32,14 +32,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
-
 import java.util.Map;
-
-import javax.security.auth.login.LoginException;
-
 import static android.app.Activity.RESULT_OK;
-import static com.example.samin.paitientmanagement.R.drawable.design_ic_visibility;
-import static com.example.samin.paitientmanagement.R.drawable.invalid_person_image;
 
 
 public class ProfileFragment extends Fragment{
@@ -227,8 +221,7 @@ public class ProfileFragment extends Fragment{
         user_save_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mProgressDialog.setMessage("Uploading Details....");
-                mProgressDialog.show();
+
                 final String mName=user_name.getText().toString();
                 final String mPhone=user_phone.getText().toString();
                 final String mAddress=user_address.getText().toString();
@@ -256,7 +249,7 @@ public class ProfileFragment extends Fragment{
 
                 Firebase childRef_bloodgroup = mRoofRef.child("Bloodgroup");
                 childRef_bloodgroup.setValue(mBloodgroup);
-                mProgressDialog.dismiss();
+                Toast.makeText(getActivity(), "Updated Info", Toast.LENGTH_SHORT).show();
 
 
             }
@@ -276,12 +269,16 @@ public class ProfileFragment extends Fragment{
 
             StorageReference filePath= mStorage.child("User_Images").child(mImageUri.getLastPathSegment());
 
+
+            //the Progress bar Should be Here
+            mProgressDialog.setMessage("Uploading Image....");
+            mProgressDialog.show();
+
+
             filePath.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                    mProgressDialog.setMessage("Uploading Details....");
-                    mProgressDialog.show();
                     Uri downloadUri  = taskSnapshot.getDownloadUrl();
 
 
