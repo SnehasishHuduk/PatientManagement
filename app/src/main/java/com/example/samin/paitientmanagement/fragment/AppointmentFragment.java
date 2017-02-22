@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,10 +50,6 @@ public class AppointmentFragment extends Fragment {
         email = getResources().getStringArray(R.array.doctor_email);
        phone = getResources().getStringArray(R.array.doctor_phone);
         spec = getResources().getStringArray(R.array.doctor_qualification);
-
-
-
-
 
 
         int count = 0;
@@ -115,6 +112,8 @@ public class AppointmentFragment extends Fragment {
 
             }
         });
+
+
 
 
         return v;

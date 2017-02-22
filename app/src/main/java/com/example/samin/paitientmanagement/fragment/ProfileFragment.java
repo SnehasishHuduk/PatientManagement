@@ -115,10 +115,10 @@ public class ProfileFragment extends Fragment{
 
         FirebaseUser user = firebaseAuth.getCurrentUser();
         UserID=user.getEmail().replace("@","").replace(".","");
-        mRoofRef= new Firebase("https://patient-management-11e26.firebaseio.com/"+UserID);
+        mRoofRef= new Firebase("https://patient-management-11e26.firebaseio.com/").child("User_Details").child(UserID);
 
         mStorage = FirebaseStorage.getInstance().getReferenceFromUrl("gs://patient-management-11e26.appspot.com/");
-        mStorageRef_mod = FirebaseStorage.getInstance().getReferenceFromUrl("gs://patient-management-11e26.appspot.com/"+UserID);
+       // mStorageRef_mod = FirebaseStorage.getInstance().getReferenceFromUrl("gs://patient-management-11e26.appspot.com/"+UserID);
 
 //        Glide.with(context)
 //                .using(new FirebaseImageLoader())

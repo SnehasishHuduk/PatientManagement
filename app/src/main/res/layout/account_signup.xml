@@ -79,7 +79,7 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:text="Signup"
-                android:id="@+id/signup_button"
+                android:id="@+id/makeappointment_button"
                 android:onClick="make_appointment"
                 android:background="@drawable/button_bg_transparent"
                 android:layout_weight="0.42"
