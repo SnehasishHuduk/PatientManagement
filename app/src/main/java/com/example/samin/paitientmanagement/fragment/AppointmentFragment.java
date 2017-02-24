@@ -85,9 +85,6 @@ public class AppointmentFragment extends Fragment {
         Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/RobotoCondensed-Regular.ttf");
         txt.setTypeface(font);
 
-
-
-
        spinner = (Spinner) v.findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {

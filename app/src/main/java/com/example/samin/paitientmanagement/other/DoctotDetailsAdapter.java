@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,7 +49,6 @@ public class DoctotDetailsAdapter extends RecyclerView.Adapter<DoctotDetailsAdap
 
     @Override
     public int getItemViewType(int position) {
-
         return position;
     }
 
@@ -59,19 +57,12 @@ public class DoctotDetailsAdapter extends RecyclerView.Adapter<DoctotDetailsAdap
         Log.d("Adapter","get Count Called");
         return doctorDetailses.size();
     }
-
-
-
-
-
-
     public static class DetailsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         ImageView doctor_image;
         TextView doctor_name,doctor_email,doctor_phone,doctor_spec;
         ArrayList<DoctorDetails> details = new ArrayList<DoctorDetails>();
         Context ctx;
-
         public DetailsViewHolder(View view,Context ctx,ArrayList<DoctorDetails> details) {
             super(view);
             this.details = details;
@@ -79,7 +70,7 @@ public class DoctotDetailsAdapter extends RecyclerView.Adapter<DoctotDetailsAdap
             view.setOnClickListener(this);
             Log.d("Adapter","DetailsViewHolder Called");
             doctor_image= (ImageView) view.findViewById(R.id.doctor_image);
-            doctor_name=(TextView)view.findViewById(R.id.doctor_name);
+            doctor_name=(TextView)view.findViewById(R.id.your_appointment);
             doctor_email=(TextView)view.findViewById(R.id.doctor_email);
            // doctor_phone=(TextView)view.findViewById(R.id.doctor_phno);
             doctor_spec=(TextView)view.findViewById(R.id.doctor_spec);

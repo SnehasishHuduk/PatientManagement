@@ -23,6 +23,7 @@
         <activity android:name=".activity.PrivacyPolicyActivity"/>
         <activity android:name=".activity.PersonalInfo"/>
         <activity android:name=".activity.Create_account"/>
+        <activity android:name=".activity.Show_Appointments"/>
 
 
     </application>

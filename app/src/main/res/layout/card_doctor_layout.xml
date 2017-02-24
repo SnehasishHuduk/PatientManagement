@@ -29,7 +29,7 @@
                 android:src="@drawable/doctor_1" />
 
             <TextView
-                android:id="@+id/doctor_name"
+                android:id="@+id/your_appointment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
@@ -44,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_marginLeft="-15dp"
                 android:layout_marginTop="-6dp"
-                android:layout_below="@+id/doctor_name"
+                android:layout_below="@+id/your_appointment"
                 android:layout_height="wrap_content"
                 android:src="@drawable/break_line" />
 
@@ -54,7 +54,7 @@
                 android:id="@+id/doctor_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/doctor_name"
+                android:layout_below="@id/your_appointment"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="17dp"
                 android:layout_toRightOf="@+id/doctor_image"

@@ -16,6 +16,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.samin.paitientmanagement.R;
+import com.firebase.client.Firebase;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,20 +28,24 @@ public class PersonalInfo extends AppCompatActivity
 {
     private CollapsingToolbarLayout collapsingToolbarLayout = null;
     ImageView imageView;
-    TextView  tx_name,tx_email,tx_phone,tx_spec,personal_info_text,tv_make_appo;
+    TextView  tx_email,tx_phone,tx_spec,personal_info_text,tv_make_appo;
+    String intent_name,intent_phone,intent_email;
     Button appointment_button;
     private EditText your_name,your_phone,your_appoint_date,your_appoint_reason;
+    private FirebaseAuth firebaseAuth;
+    public String UserID;
+    private Firebase mRoofRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.personal_info_activity_main);
+        firebaseAuth = FirebaseAuth.getInstance();
 
         your_name=(EditText)findViewById(R.id.appoint_Your_name);
         your_phone = (EditText)findViewById(R.id.appoint_Phone);
         your_appoint_date = (EditText)findViewById(R.id.appoint_Visit_Date);
         your_appoint_reason = (EditText)findViewById(R.id.appoint_Visit_reason);
-
 
         appointment_button= (Button) findViewById(R.id.makeappointment_button);
         personal_info_text= (TextView) findViewById(R.id.personal_info_txt);
@@ -52,6 +59,11 @@ public class PersonalInfo extends AppCompatActivity
         tx_email.setText("Email : "+getIntent().getStringExtra("email"));
         tx_phone.setText("Phone : "+getIntent().getStringExtra("phone"));
 
+        //Fetch Intent data for appointment Field
+        intent_name = getIntent().getStringExtra("name");
+        intent_phone = getIntent().getStringExtra("email");
+        intent_email = getIntent().getStringExtra("phone");
+
         Typeface txt =Typeface.createFromAsset(getAssets(),"fonts/RobotoCondensed-LightItalic.ttf");
         Typeface txt2 =Typeface.createFromAsset(getAssets(),"fonts/RobotoCondensed-BoldItalic.ttf");
         tx_email.setTypeface(txt);
@@ -59,13 +71,8 @@ public class PersonalInfo extends AppCompatActivity
         personal_info_text.setTypeface(txt2);
         tv_make_appo.setTypeface(txt2);
 
-
-
-
         SimpleDateFormat sdf = new SimpleDateFormat( "dd/MM/yyyy" );
         your_appoint_date.setText( sdf.format( new Date() ));
-
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -80,40 +87,13 @@ public class PersonalInfo extends AppCompatActivity
         toolbarTextAppearance();
     }
 
-//    private void dynamicToolbarColor() {
-//
-//        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.doctor_9);
-//
-//
-//        Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
-//            @Override
-//            public void onGenerated(Palette palette) {
-//                collapsingToolbarLayout.setContentScrimColor(palette.getMutedColor(R.attr.colorPrimary));
-//                collapsingToolbarLayout.setStatusBarScrimColor(palette.getMutedColor(R.attr.colorPrimaryDark));
-//            }
-//        });
-//    }
-
-
     private void toolbarTextAppearance() {
-        //        final Typeface tf = Typeface.createFromAsset(context.getAssets(), "fonts/FrutigerLTStd-Light.otf");
-//        collapsingToolbar.setCollapsedTitleTypeface(tf);
-//        collapsingToolbar.setExpandedTitleTypeface(tf);
         Typeface font = Typeface.createFromAsset(this.getAssets(), "fonts/Roboto-LightItalic.ttf");
         collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.collapsedappbar);
         collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.expandedappbar);
         collapsingToolbarLayout.setCollapsedTitleTypeface(font);
         collapsingToolbarLayout.setExpandedTitleTypeface(font);
     }
-
-
-
-   /* @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -129,10 +109,7 @@ public class PersonalInfo extends AppCompatActivity
         }
     }
 
-
     public void make_appointment(View view) {
-       // Toast.makeText(PersonalInfo.this, "Database Was Not Present", Toast.LENGTH_SHORT).show();
-
         String getName = your_name.getText().toString().trim();
         String getPhone = your_phone.getText().toString().trim();
         String getDate = your_appoint_date.getText().toString().trim();
@@ -156,10 +133,17 @@ public class PersonalInfo extends AppCompatActivity
             Toast.makeText(this, "Reason Require", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        //Toast.makeText(this, "Details are : "+getName+" \n " + getPhone + "\n" + getDate + "\n" + getReason, Toast.LENGTH_LONG).show();
-
-
-
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        UserID=user.getEmail().replace("@","").replace(".","");
+        mRoofRef= new Firebase("https://patient-management-11e26.firebaseio.com/");
+        Firebase userRef = mRoofRef.child("User_Appointment").child(UserID).push();
+        userRef.child("Patient_Name").setValue(getName);
+        userRef.child("Patient_Phone").setValue(getPhone);
+        userRef.child("Appointment_Date").setValue(getDate);
+        userRef.child("Appointment_Reason").setValue(getReason);
+        userRef.child("Appointment_Doctor_Name").setValue(intent_name.toString().trim());
+        userRef.child("Appointment_Doctor_Email").setValue(intent_phone.toString().trim());
+        userRef.child("Appointment_Doctor_phone").setValue(intent_email.toString().trim());
+        Toast.makeText(this, "Appointment Registered", Toast.LENGTH_SHORT).show();
     }
 }
