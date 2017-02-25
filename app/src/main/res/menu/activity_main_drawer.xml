@@ -8,11 +8,11 @@
             android:title="@string/nav_home" />
         <item
             android:id="@+id/nav_appointment"
-            android:icon="@drawable/ic_photo_library_black_24dp"
+            android:icon="@drawable/appointment_icon"
             android:title="@string/nav_photos" />
         <item
             android:id="@+id/nav_patient"
-            android:icon="@drawable/ic_local_movies_black_24dp"
+            android:icon="@drawable/patient_management"
             android:title="@string/nav_movies" />
 
         <item
