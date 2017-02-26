@@ -2,6 +2,7 @@ package com.example.samin.paitientmanagement.other;
 
 import android.util.Log;
 
+
 /**
  * Created by Samin on 23-02-2017.
  */
@@ -16,7 +17,6 @@ public class Show_appointment_data_item {
     private String Patient_Phone;
 
 
-
     public Show_appointment_data_item(String Appointment_Doctor_Name, String Appointment_Doctor_Email, String Appointment_Doctor_phone, String Appointment_Date, String Appointment_Reason, String Patient_Name, String Patient_Phone) {
         this.Appointment_Doctor_Name = Appointment_Doctor_Name;
         this.Appointment_Doctor_Email = Appointment_Doctor_Email;
@@ -27,8 +27,8 @@ public class Show_appointment_data_item {
         this.Patient_Phone = Patient_Phone;
 
     }
-    public Show_appointment_data_item(){
 
+    public Show_appointment_data_item() {
     }
 
     public String getAppointment_Doctor_Name() {
