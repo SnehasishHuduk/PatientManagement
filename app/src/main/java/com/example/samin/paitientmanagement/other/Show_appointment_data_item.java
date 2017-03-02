@@ -32,7 +32,7 @@ public class Show_appointment_data_item {
     }
 
     public String getAppointment_Doctor_Name() {
-        Log.d("LOGGED", "populateViewHolder: Called ");
+       // Log.d("LOGGED", "populateViewHolder: Called ");
         return Appointment_Doctor_Name;
     }
 

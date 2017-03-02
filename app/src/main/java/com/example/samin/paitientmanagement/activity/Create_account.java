@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.ProviderQueryResult;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 
@@ -30,9 +31,9 @@ public class Create_account extends AppCompatActivity implements View.OnClickLis
     private Button signup;
     private ProgressDialog PGD;
     private FirebaseAuth firebaseAuth;
-
-    public String UserID;
-    private Firebase mRoofRef;
+    FirebaseUser user;
+    public String UserID,email,pass;
+    private Firebase mRoofRef,userRef;
 
 
     @Override
@@ -43,10 +44,17 @@ public class Create_account extends AppCompatActivity implements View.OnClickLis
         PGD = new ProgressDialog(this);
 
 
+        //FireBase Details
+
+
+
+
         //Name = (EditText) findViewById(R.id.etsignup_name);
         Email = (EditText) findViewById(R.id.etsignup_email);
         Password = (EditText) findViewById(R.id.etsignup_password);
         signup = (Button) findViewById(R.id.makeappointment_button);
+
+
 
 
         signup.setOnClickListener(this);
@@ -61,8 +69,9 @@ public class Create_account extends AppCompatActivity implements View.OnClickLis
     }
 
     private void registerUser() {
-        String email = Email.getText().toString().trim();
-        String pass = Password.getText().toString().trim();
+        email = Email.getText().toString().trim();
+        pass = Password.getText().toString().trim();
+
         if(TextUtils.isEmpty(email)){
             //Email is Empty
             Toast.makeText(this, "Enter Email", Toast.LENGTH_SHORT).show();
@@ -82,67 +91,106 @@ public class Create_account extends AppCompatActivity implements View.OnClickLis
             //stop the function for Executing further
             return;
         }
+
         PGD.setMessage("Registering User...");
         PGD.show();
 
 
-        firebaseAuth.createUserWithEmailAndPassword(email,pass)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-    @Override
-    public void onComplete(@NonNull Task<AuthResult> task) {
-        if(task.isSuccessful()){
-            Toast.makeText(Create_account.this, "Register Successfully. ", Toast.LENGTH_LONG).show();
-            //PGD.cancel();
 
-            //Testing
-            FirebaseUser user = firebaseAuth.getCurrentUser();
-            UserID=user.getEmail().replace("@","").replace(".","");
-            //mRoofRef= new Firebase("https://patient-management-11e26.firebaseio.com/"+"User_Details/"+UserID);
-            mRoofRef= new Firebase("https://patient-management-11e26.firebaseio.com/");
-            Firebase userRef = mRoofRef.child("User_Details").child(UserID);
-            Firebase childRef_name = userRef.child("Name");
-            childRef_name.setValue("Null");
+        firebaseAuth.fetchProvidersForEmail(email).addOnCompleteListener(new OnCompleteListener<ProviderQueryResult>() {
+            @Override
+            public void onComplete(@NonNull Task<ProviderQueryResult> task) {
+                if(task.isSuccessful()){
+                    // getProviders() will return size 1. if email ID is available.
 
-            Firebase childRef_phone = userRef.child("Phone");
-            childRef_phone.setValue("Null");
+                    if (task.getResult().getProviders().size() > 0) {
+                       // Toast.makeText(Create_account.this, "Email : registered " + task.getResult().getProviders(), Toast.LENGTH_SHORT).show();
+                        PGD.dismiss();
+                        Toast.makeText(Create_account.this, " ID already registered  !! " , Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    //Toast.makeText(Create_account.this, "Email : Blank " + task.getResult().getProviders(), Toast.LENGTH_SHORT).show();
+                     email_validated(email,pass);
+                }
+                else{
+                    PGD.dismiss();
+                    Toast.makeText(Create_account.this, " "+ task.getException().getMessage(), Toast.LENGTH_SHORT).show();
 
-            Firebase childRef_address = userRef.child("Address");
-            childRef_address.setValue("Null");
+                }
 
-            Firebase childRef_age = userRef.child("Age");
-            childRef_age.setValue("Null");
-
-            Firebase childRef_height = userRef.child("Height");
-            childRef_height.setValue("Null");
-
-            Firebase childRef_weight = userRef.child("Weight");
-            childRef_weight.setValue("Null");
-
-            Firebase childRef_bloodgroup = userRef.child("Bloodgroup");
-            childRef_bloodgroup.setValue("Null");
-
-            PGD.dismiss();
-
-            callLogin();
+            }
+        });
 
 
-        }else{
-            Toast.makeText(Create_account.this, "Could Not Register, Try Again.", Toast.LENGTH_SHORT).show();
-            PGD.dismiss();
-        }
+
     }
-});
 
+
+
+    private void email_validated(String email,String pass)
+    {
+
+        firebaseAuth.createUserWithEmailAndPassword(email, pass)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+
+                            Toast.makeText(Create_account.this, "Register Successfully. ", Toast.LENGTH_LONG).show();
+
+
+
+                            user = firebaseAuth.getCurrentUser();
+
+                            UserID=user.getEmail().replace("@","").replace(".","");
+                            //mRoofRef= new Firebase("https://patient-management-11e26.firebaseio.com/"+"User_Details/"+UserID);
+                            mRoofRef= new Firebase("https://patient-management-11e26.firebaseio.com/");
+                            userRef = mRoofRef.child("User_Details").child(UserID);
+
+
+
+                            Firebase childRef_name = userRef.child("Name");
+                            childRef_name.setValue("Null");
+
+                            Firebase childRef_phone = userRef.child("Phone");
+                            childRef_phone.setValue("Null");
+
+                            Firebase childRef_address = userRef.child("Address");
+                            childRef_address.setValue("Null");
+
+                            Firebase childRef_age = userRef.child("Age");
+                            childRef_age.setValue("Null");
+
+                            Firebase childRef_height = userRef.child("Height");
+                            childRef_height.setValue("Null");
+
+                            Firebase childRef_weight = userRef.child("Weight");
+                            childRef_weight.setValue("Null");
+
+                            Firebase childRef_bloodgroup = userRef.child("Bloodgroup");
+                            childRef_bloodgroup.setValue("Null");
+
+                            Firebase childRef_image_url = userRef.child("Image_URL");
+                            childRef_image_url.setValue("Null");
+
+                            PGD.dismiss();
+
+                            callLogin();
+
+
+                        } else {
+                            Toast.makeText(Create_account.this, "Could Not Register, Try Again.", Toast.LENGTH_SHORT).show();
+                            PGD.dismiss();
+                        }
+                    }
+                });
     }
 
     private void callLogin() {
         Intent i= new Intent(this,login_activity.class);
-//        try {
-//            Thread.sleep(1500);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
+        login_activity.login_Activity.finish();
+        finish();
         startActivity(i);
-        //finish();
+
     }
 }

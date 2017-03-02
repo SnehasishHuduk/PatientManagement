@@ -56,7 +56,7 @@
             android:maxLines="1"
             android:focusable="true"
             android:selectAllOnFocus="true"
-            android:inputType="phone"
+            android:inputType="number"
             android:hint="Phone"
             />
     </android.support.design.widget.TextInputLayout>

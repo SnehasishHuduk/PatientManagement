@@ -9,12 +9,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.samin.paitientmanagement.R;
 import com.example.samin.paitientmanagement.other.Show_appointment_data_item;
 import com.firebase.client.DataSnapshot;
@@ -26,16 +31,19 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.squareup.picasso.Picasso;
+import com.google.firebase.storage.FirebaseStorage;
+
 import java.util.Map;
 
 public class Show_Appointments extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
     public FirebaseAuth firebaseAuth;
     public String UserID;
     DatabaseReference myRef;
+
+    private RecyclerView recyclerView;
     private FirebaseRecyclerAdapter<Show_appointment_data_item, MyViewHolder> mFirebaseAdapter;
+    Boolean flag=false;
 
 
     @Override
@@ -51,28 +59,111 @@ public class Show_Appointments extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle("Your Appointments");
         }
-        Log.d("LOGGED", "----------------------- START NEW --------------------------");
+       // Log.d("LOGGED", "----------------------- START NEW --------------------------");
 
         //Send a Query to database
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser user = firebaseAuth.getCurrentUser();
-        Log.d("LOGGED ", " USER " + user.toString());
+        //Log.d("LOGGED ", " USER " + user.toString());
         UserID = user.getEmail().replace("@", "").replace(".", "");
         myRef = FirebaseDatabase.getInstance().getReference("User_Appointment").child(UserID);
 
         //Recycler View
         recyclerView = (RecyclerView) findViewById(R.id.show_appointment_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        Log.d("LOGGED", "ADAPTER 1st " + mFirebaseAdapter);
-        Toast.makeText(this, "Wait ! Fetching data...", Toast.LENGTH_LONG).show();
+
+        //Log.d("LOGGED", "ADAPTER 1st " + adapter);
+        Toast.makeText(this, "Wait ! Fetching data...", Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+       // Log.d("LOGGED", "IN onStart ");
+        mFirebaseAdapter = new FirebaseRecyclerAdapter<Show_appointment_data_item, MyViewHolder>(Show_appointment_data_item.class, R.layout.show_appointment_single_item, MyViewHolder.class, myRef) {
+            //            @Override
+//            public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+//                Log.d("LOGGED", " onStart-Called 4m inside " );
+//
+//                ViewGroup view = (ViewGroup)
+//                        LayoutInflater.from(parent.getContext())
+//                                .inflate(R.layout.show_appointment_single_item, parent, false);
+//                return super.onCreateViewHolder(view, viewType);
+//            }
+            public void populateViewHolder(final MyViewHolder viewHolder, Show_appointment_data_item model, final int position) {
+                flag=true;
+                viewHolder.setDoctor_URL(model.getAppointment_Doctor_Email());
+                viewHolder.setAppointment_Doctor_Name(model.getAppointment_Doctor_Name());
+                viewHolder.setAppointment_Doctor_Email(model.getAppointment_Doctor_Email());
+                viewHolder.setAppointment_Doctor_Phone(model.getAppointment_Doctor_phone());
+                viewHolder.setAppointment_Patient_Name(model.getPatient_Name());
+                viewHolder.setAppointment_Patient_Phone(model.getPatient_Phone());
+                viewHolder.setAppointment_Date(model.getAppointment_Date());
+                viewHolder.setAppointment_Reason(model.getAppointment_Reason());
+                //Log.d("LOGGED", "populateViewHolder: Called ");
+                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(final View v) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(Show_Appointments.this);
+                        builder.setMessage("Do you want to Delete the Appointment ?").setCancelable(false)
+                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        int selectedItems = position;
+                                        mFirebaseAdapter.getRef(selectedItems).removeValue();
+                                        mFirebaseAdapter.notifyItemRemoved(selectedItems);
+                                        recyclerView.invalidate();
+                                        onStart();
+                                    }
+                                })
+                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                    }
+                                });
+                        AlertDialog dialog = builder.create();
+                        dialog.setTitle("Confirm");
+                        dialog.show();
+                    }
+                });
+            }
+        };
+
+        //Log.d("LOGGED", "Setting Adapter ");
+        recyclerView.setAdapter(mFirebaseAdapter);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.show_appointment_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // this takes the user 'back', as if they pressed the left-facing triangle icon on the main android toolbar.
+                // if this doesn't work as desired, another possibility is to call `finish()` here.
+                this.onBackPressed();
+                return true;
+            case R.id.action_refresh:
+                recyclerView.invalidate();
+                onStart();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     //View Holder For Recycler View
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        View mView;
         private final TextView post_doctor_name, post_doctor_email, post_doctor_phone, post_patient_name, post_patient_phone, post_appointment_date, post_appointment_reason;
         private final ImageView post_doctor_image;
+        View mView;
         Firebase mRoofRef;
 
         public MyViewHolder(final View itemView) {
@@ -126,7 +217,17 @@ public class Show_Appointments extends AppCompatActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Map<String, String> map = dataSnapshot.getValue(Map.class);
                         String retrieve_url = map.get("Image_Url");
-                        Picasso.with(itemView.getContext()).load(retrieve_url).into(post_doctor_image);
+//                        Picasso.with(itemView.getContext())
+//                                .load(retrieve_url)
+//                                .placeholder(R.drawable.loading)
+//                                .into(post_doctor_image);
+
+                        Glide.with(itemView.getContext()).load(retrieve_url)
+                                .crossFade()
+                                .placeholder(R.drawable.loading)
+                                .thumbnail(0.1f)
+                                .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                                .into(post_doctor_image);
                     }
 
                     @Override
@@ -135,90 +236,8 @@ public class Show_Appointments extends AppCompatActivity {
                     }
                 });
             } else {
-                Log.d("LOGGED", "I GOT THE URL " + url);
+                //Log.d("LOGGED", "I GOT THE URL " + url);
             }
-        }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d("LOGGED", "IN onStart ");
-        mFirebaseAdapter = new FirebaseRecyclerAdapter<Show_appointment_data_item, MyViewHolder>(Show_appointment_data_item.class, R.layout.show_appointment_single_item, MyViewHolder.class, myRef) {
-            //            @Override
-//            public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//                Log.d("LOGGED", " onStart-Called 4m inside " );
-//
-//                ViewGroup view = (ViewGroup)
-//                        LayoutInflater.from(parent.getContext())
-//                                .inflate(R.layout.show_appointment_single_item, parent, false);
-//                return super.onCreateViewHolder(view, viewType);
-//            }
-            public void populateViewHolder(final MyViewHolder viewHolder, Show_appointment_data_item model, final int position) {
-                viewHolder.setAppointment_Doctor_Name(model.getAppointment_Doctor_Name());
-                viewHolder.setAppointment_Doctor_Email(model.getAppointment_Doctor_Email());
-                viewHolder.setAppointment_Doctor_Phone(model.getAppointment_Doctor_phone());
-                viewHolder.setAppointment_Patient_Name(model.getPatient_Name());
-                viewHolder.setAppointment_Patient_Phone(model.getPatient_Phone());
-                viewHolder.setAppointment_Date(model.getAppointment_Date());
-                viewHolder.setAppointment_Reason(model.getAppointment_Reason());
-                viewHolder.setDoctor_URL(model.getAppointment_Doctor_Email());
-                Log.d("LOGGED", "populateViewHolder: Called ");
-                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
-                    @
-                            Override
-                    public void onClick(final View v) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(Show_Appointments.this);
-                        builder.setMessage("Do you want to Delete the Appointment ?").setCancelable(false)
-                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        int selectedItems = position;
-                                        mFirebaseAdapter.getRef(selectedItems).removeValue();
-                                        mFirebaseAdapter.notifyItemRemoved(selectedItems);
-                                        recyclerView.invalidate();
-                                        onStart();
-                                    }
-                                })
-                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.cancel();
-                                    }
-                                });
-                        AlertDialog dialog = builder.create();
-                        dialog.setTitle("Confirm");
-                        dialog.show();
-                    }
-                });
-            }
-        };
-
-        Log.d("LOGGED", "Setting Adapter ");
-        recyclerView.setAdapter(mFirebaseAdapter);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.show_appointment_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                // this takes the user 'back', as if they pressed the left-facing triangle icon on the main android toolbar.
-                // if this doesn't work as desired, another possibility is to call `finish()` here.
-                this.onBackPressed();
-                return true;
-            case R.id.action_refresh:
-                recyclerView.invalidate();
-                onStart();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
         }
     }
 }

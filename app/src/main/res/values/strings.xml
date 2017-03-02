@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">Patient Management</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="openDrawer">open_drawer</string>
     <string name="closeDrawer">close_drawer</string>
 
@@ -31,97 +29,66 @@
         <item>Neurology</item>
     </string-array>
 
-    <string name="activity_title_about_us">About Us</string>
-    <string name="activity_title_privacy_policy">Privacy Policy</string>
     <string name="action_clear_all">Clear All</string>
     <string name="action_logout">Logout</string>
     <string name="action_mark_all_read">Mark All as Read</string>
     <string name="privacy_policy">Privacy Policy</string>
-
     <string name="action_refresh">Refresh</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="Patient_fragment">Hello Patient fragment</string>
-    <string name="Profile_fragment">Hello Profile fragment</string>
 
-
-
-
-
-    <string-array name="doctor_name">
-        <item>"Dr. Ankita das"</item>
-        <item>"Dr. Anirban Chatterjee"</item>
-        <item>"Dr. Chandra Behany"</item>
-        <item>"Dr. Dipa karmakar"</item>
-        <item>"Dr. Chandrni Pal"</item>
-        <item>"Dr. Semanti saha"</item>
-        <item>"Dr. Sanjay Sarkar"</item>
-        <item>"Dr. Somnath Mukherjee"</item>
-        <item>"Dr. Bristi das"</item>
-        <item>"Dr. Rachana Banerjee"</item>
-        <item>"Dr. Supriyo Ghatak"</item>
-
-    </string-array>
-
-    <string-array name="doctor_email">
-        <item>"ankitadas@gmail.com"</item>
-        <item>"anirbanchatterjee@yahoo.com"</item>
-        <item>"chandrabehany@gmail.com"</item>
-        <item>"dipakarmakar@yahoo.com"</item>
-        <item>"chandrnipal@gmail.com"</item>
-        <item>"semantisaha@gmail.com"</item>
-        <item>"sanjaysarkar@yahoo.com"</item>
-        <item>"somnathmukherjee@gmail.com"</item>
-        <item>"bristidas@yahoo.com"</item>
-        <item>"rachanabanerjee@gmail.com"</item>
-        <item>"supriyoghatak@gmail.com"</item>
-
-    </string-array>
-
-
-
-    <string-array name="doctor_phone">
-        <item>"9874308698"</item>
-        <item>"8013968745"</item>
-        <item>"7970896381"</item>
-        <item>"9038648572"</item>
-        <item>"9734896342"</item>
-        <item>"9836200045"</item>
-        <item>"9874325874"</item>
-        <item>"9874983985"</item>
-        <item>"9038124578"</item>
-        <item>"9744134679"</item>
-        <item>"9863251419"</item>
-
-    </string-array>
-
-
-
-    <string-array name="doctor_qualification">
-        <item>"MBBS"</item>
-        <item>"FELLOW IN ENDOSCOPY"</item>
-        <item>"Dip Lap Surg"</item>
-        <item>"Plastic Surgery"</item>
-        <item>"MBBS, MS, M.Ch"</item>
-        <item>"DM (nephrology)"</item>
-        <item>"M.B.B.S, D.Orth, MS(Orth)"</item>
-        <item>"MBBS, DGO, DNB"</item>
-        <item>"MD (Radiology)"</item>
-        <item>"BDS, M.D.S. (Orthodontist)"</item>
-        <item>"ENT and Surgery"</item>
-
-    </string-array>
-
-
-
-
-
-    <string name="action_settings">Settings</string>
     <string name="text_content">Demo Details </string>
 
-    <string name="user_name">User1</string>
+
+    <string name="changelog_Header">ChangeLog</string>
 
 
+    <!-- About -->
+    <string name="title_about"><![CDATA[
+            <b>ChangeLog Library</b>&nbsp;<font color="#888888">v%1$s</font>
+        ]]></string>
+
+    <string name="about_ok">OK</string>
+
+    <string name="changelog_body">
+        <b><u>PM 1.9 - Changes:</u></b>\n
+
+        &#8226; Settings Tab will check for Updates and Changelog will Show There \n
+        &#8226; Login User image will show in Navigation Drawer Header \n
+        &#8226; Doctor Images Redesigned \n
+        &#8226; Sign up, Login, ForgetPassword pages Should Works As Should be. [ There are Some Code Glitches ] \n
+        &#8226; User Name will show in Navigation Drawer. \n \n
+        <b><u>PM 1.8 - Changes:</u></b>\n
+         &#8226; App size reduce from 12 MB to 5 MB.\n
+         &#8226; All &amp; and Images Stored in Server \n
+         &#8226; Forget Password Implemented.\n \n
+
+        <b><u>PM 1.7 - Changes:</u></b>\n
+         &#8226; Redesign Appointment Layout &amp; Appointment can be deleted [ On Tap ] \n\n
+         &#8226; Some Icon changed\n
+
+        <b><u>PM 1.5 - Changes:</u></b>\n
+         &#8226; Make Appointment is Working. \n
+         \ **go to Patient Management. then select Your Appointment \n \n
+
+        <b><u>PM 1.2 - Changes:</u></b>\n
+        &#8226; New Personal Info Tab added. \n\n
+
+        <b><u>PM 1.1 - Changes:</u></b>\n
+        &#8226; Login &amp; Sign up page Completed. \n
+        &#8226; Layout fix for small screen device(Sudipto) \n
+        &#8226; Logout button working. \n
+        &#8226; User Name will show in Navigation Drawer. \n \n
+        <b><u>PM 1.0 - Changes:</u></b>\n
+
+        &#8226; A Static login page is created (not connected to any database) \n
+        &#8226; Login id= admin &amp; pass=admin \n
+        &#8226; Sign up page has been added. but its just a template. nothing to work. and *May be Crash your application* \n
+        &#8226; App Logo is Created. \n
+        \n
+
+
+
+</string>
 
 
 

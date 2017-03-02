@@ -19,7 +19,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         card_view:cardCornerRadius="5dp"
-        card_view:cardElevation="5dp"
+        card_view:cardElevation="2dp"
         card_view:cardUseCompatPadding="true">
 
 

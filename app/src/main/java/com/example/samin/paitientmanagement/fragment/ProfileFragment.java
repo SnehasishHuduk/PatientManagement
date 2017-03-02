@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.samin.paitientmanagement.R;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -31,6 +33,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
+
 import java.util.Map;
 import static android.app.Activity.RESULT_OK;
 
@@ -48,6 +51,7 @@ public class ProfileFragment extends Fragment {
     private static final int GALLERY_INTENT = 2;
     private ProgressDialog mProgressDialog;
     public String UserID;
+
     Context context;
 
     public static final int READ_EXTERNAL_STORAGE = 0;
@@ -61,14 +65,15 @@ public class ProfileFragment extends Fragment {
         super.onCreate(savedInstanceState);
         firebaseAuth = FirebaseAuth.getInstance();
         context = getActivity();
+        Log.d("LOGGED", "onCreate: context " + context);
 
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_profile, container, false);
+        final View v = inflater.inflate(R.layout.fragment_profile, container, false);
 
         user_name = (EditText) v.findViewById(R.id.profile_edit_name);
         user_phone = (EditText) v.findViewById(R.id.profile_edit_phone);
@@ -110,6 +115,7 @@ public class ProfileFragment extends Fragment {
         UserID = user.getEmail().replace("@", "").replace(".", "");
         mRoofRef = new Firebase("https://patient-management-11e26.firebaseio.com/").child("User_Details").child(UserID);
         mStorage = FirebaseStorage.getInstance().getReferenceFromUrl("gs://patient-management-11e26.appspot.com/");
+
         mRoofRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -124,39 +130,102 @@ public class ProfileFragment extends Fragment {
                 String retrieve_weight = map.get("Weight");
                 String retrieve_bloodgroup = map.get("Bloodgroup");
                 String retrieve_url = map.get("Image_URL");
-                if (retrieve_name != null) {
+
+                Log.d("LOGGED", "onDataChange: v.context " + v.getContext());
+
+                if (retrieve_name.matches("Null"))
+                    user_name.setText("");
+                else
                     user_name.setText(retrieve_name);
-                }
 
-                if (retrieve_phone != null) {
+
+
+                if (retrieve_phone.matches("Null"))
+                    user_phone.setText("");
+                else
                     user_phone.setText(retrieve_phone);
-                }
 
-                if (retrieve_address != null) {
+
+                if (retrieve_address.matches("Null"))
+                    user_address.setText("");
+                else
                     user_address.setText(retrieve_address);
-                }
 
-                if (retrieve_age != null) {
+
+                if (retrieve_age.matches("Null"))
+                    user_age.setText("");
+                else
                     user_age.setText(retrieve_age);
-                }
 
-                if (retrieve_height != null) {
+
+                if (retrieve_height.matches("Null"))
+                    user_height.setText("");
+                else
                     user_height.setText(retrieve_height);
-                }
 
-                if (retrieve_weight != null) {
+
+                if (retrieve_weight.matches("Null"))
+                    user_weight.setText("");
+                else
                     user_weight.setText(retrieve_weight);
-                }
 
-                if (retrieve_bloodgroup != null) {
+
+                if (retrieve_bloodgroup.matches("Null"))
+                    user_bloodgroup.setText("");
+                else
                     user_bloodgroup.setText(retrieve_bloodgroup);
-                }
 
-                if (retrieve_url != null) {
+
+                if (retrieve_url.matches("Null"))
+                        Picasso.with(context).load(R.drawable.invalid_person_image).into(user_image);
+
+                        //Glide Gives Context Errors :(
+//                        Glide.with(context)
+//                                .load(R.drawable.invalid_person_image)
+//                                .crossFade()
+//                                .diskCacheStrategy(DiskCacheStrategy.RESULT)
+//                                .into(user_image);
+                    else
                     Picasso.with(getContext()).load(retrieve_url).into(user_image);
-                } else {
-                    Picasso.with(context).load(R.drawable.invalid_person_image).into(user_image);
-                }
+
+                    //Glide Gives Context Errors :(
+//                        Glide.with(v.getContext())
+//                                .load(retrieve_url)
+//                                .crossFade()
+//                                .placeholder(R.drawable.loading)
+//                                .diskCacheStrategy(DiskCacheStrategy.RESULT)
+//                                .into(user_image);
+//                }
+//                else
+//                {
+//                   // Picasso.with(context).load(R.drawable.invalid_person_image).into(user_image);
+//                    Glide.with(context)
+//                            .load(R.drawable.invalid_person_image)
+//                            .crossFade()
+//                            .diskCacheStrategy(DiskCacheStrategy.RESULT)
+//                            .into(user_image);
+
+//                    if (retrieve_url.equals("Null"))
+//                    {
+//                        Glide.with(context)
+//                                .load(R.drawable.invalid_person_image)
+//                                .crossFade()
+//                                .diskCacheStrategy(DiskCacheStrategy.RESULT)
+//                                .into(user_image);
+//                    }
+//                    else
+//                    {
+////                        Picasso.with(context)
+////                                .load(R.drawable.invalid_person_image)
+////                                .into(user_image);
+////                        Glide.with(v.getContext())
+////                                .load(retrieve_url)
+////                                .crossFade()
+////                                .placeholder(R.drawable.loading)
+////                                .diskCacheStrategy(DiskCacheStrategy.RESULT)
+////                                .into(user_image);
+//                    }
+                //}
             }
 
             @Override
@@ -169,13 +238,17 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                final String mName = user_name.getText().toString();
-                final String mPhone = user_phone.getText().toString();
-                final String mAddress = user_address.getText().toString();
-                final String mAge = user_age.getText().toString();
-                final String mHeight = user_height.getText().toString();
-                final String mWeight = user_weight.getText().toString();
-                final String mBloodgroup = user_bloodgroup.getText().toString();
+                final String mName = user_name.getText().toString().trim();
+                final String mPhone = user_phone.getText().toString().trim();
+                final String mAddress = user_address.getText().toString().trim();
+                final String mAge = user_age.getText().toString().trim();
+                final String mHeight = user_height.getText().toString().trim();
+                final String mWeight = user_weight.getText().toString().trim();
+                final String mBloodgroup = user_bloodgroup.getText().toString().trim();
+                if((mName.isEmpty() || mPhone.isEmpty() || mAddress.isEmpty() || mAge.isEmpty() || mHeight.isEmpty() || mWeight.isEmpty() || mBloodgroup.isEmpty())) {
+                    Toast.makeText(getContext(), "Fill all Field", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Firebase childRef_name = mRoofRef.child("Name");
                 childRef_name.setValue(mName);
 
@@ -203,6 +276,7 @@ public class ProfileFragment extends Fragment {
         return v;
     }
 
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -223,6 +297,13 @@ public class ProfileFragment extends Fragment {
                     Uri downloadUri = taskSnapshot.getDownloadUrl();
                     mRoofRef.child("Image_URL").setValue(downloadUri.toString());
 
+                    Glide.with(getContext())
+                                .load(downloadUri)
+                                .crossFade()
+                                .placeholder(R.drawable.loading)
+                                .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                                .into(user_image);
+
                     //Picasso.with(getContext()).load(downloadUri).into(user_image);
                     Toast.makeText(getActivity(), "Uploaded", Toast.LENGTH_SHORT).show();
                     mProgressDialog.dismiss();
@@ -236,12 +317,13 @@ public class ProfileFragment extends Fragment {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case READ_EXTERNAL_STORAGE:
-                Toast.makeText(getContext(), "Call Req Prmssn", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "Call Req Prmssn", Toast.LENGTH_SHORT).show();
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                    Toast.makeText(getContext(), "Inside If", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(getContext(), "Inside If", Toast.LENGTH_SHORT).show();
                 callgalary();
+                return;
         }
-        Toast.makeText(getContext(), "Outside If", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "...", Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -1,8 +1,11 @@
 package com.example.samin.paitientmanagement.activity;
 
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.samin.paitientmanagement.R;
 import com.firebase.client.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,12 +34,14 @@ public class PersonalInfo extends AppCompatActivity
     private CollapsingToolbarLayout collapsingToolbarLayout = null;
     ImageView imageView;
     TextView  tx_email,tx_phone,tx_spec,personal_info_text,tv_make_appo;
-    String intent_name,intent_phone,intent_email;
+    String intent_name,intent_phone,intent_email,tx_image;
     Button appointment_button;
     private EditText your_name,your_phone,your_appoint_date,your_appoint_reason;
     private FirebaseAuth firebaseAuth;
     public String UserID;
     private Firebase mRoofRef;
+    SimpleDateFormat sdf;
+    CoordinatorLayout coordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +54,15 @@ public class PersonalInfo extends AppCompatActivity
         your_appoint_date = (EditText)findViewById(R.id.appoint_Visit_Date);
         your_appoint_reason = (EditText)findViewById(R.id.appoint_Visit_reason);
 
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator_layout_personal_info);
+
         appointment_button= (Button) findViewById(R.id.makeappointment_button);
         personal_info_text= (TextView) findViewById(R.id.personal_info_txt);
         tv_make_appo= (TextView) findViewById(R.id.tv_make_appo);
 
         imageView = (ImageView) findViewById(R.id.image_id);
-        imageView.setImageResource(getIntent().getIntExtra("image_id",00));
+
+        //imageView.setImageResource(getIntent().getIntExtra("image_id",00));
 
         tx_email =(TextView)findViewById(R.id.d_doctor_email);
         tx_phone=(TextView)findViewById(R.id.d_doctor_phone);
@@ -63,6 +73,19 @@ public class PersonalInfo extends AppCompatActivity
         intent_name = getIntent().getStringExtra("name");
         intent_phone = getIntent().getStringExtra("email");
         intent_email = getIntent().getStringExtra("phone");
+        tx_image = getIntent().getStringExtra("image_id");
+       // imageView.setImageURI(Uri.parse(tx_image));
+//        Picasso.with(getApplicationContext())
+//                .load(tx_image)
+//                .into(imageView);
+
+        Glide.with(getApplicationContext())
+                .load(tx_image)
+                .thumbnail(0.1f)
+                .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(imageView);
+
 
         Typeface txt =Typeface.createFromAsset(getAssets(),"fonts/RobotoCondensed-LightItalic.ttf");
         Typeface txt2 =Typeface.createFromAsset(getAssets(),"fonts/RobotoCondensed-BoldItalic.ttf");
@@ -71,7 +94,7 @@ public class PersonalInfo extends AppCompatActivity
         personal_info_text.setTypeface(txt2);
         tv_make_appo.setTypeface(txt2);
 
-        SimpleDateFormat sdf = new SimpleDateFormat( "dd/MM/yyyy" );
+         sdf = new SimpleDateFormat( "dd/MM/yyyy" );
         your_appoint_date.setText( sdf.format( new Date() ));
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -85,7 +108,10 @@ public class PersonalInfo extends AppCompatActivity
 
         //dynamicToolbarColor();
         toolbarTextAppearance();
-    }
+
+        }
+
+
 
     private void toolbarTextAppearance() {
         Typeface font = Typeface.createFromAsset(this.getAssets(), "fonts/Roboto-LightItalic.ttf");
@@ -145,5 +171,13 @@ public class PersonalInfo extends AppCompatActivity
         userRef.child("Appointment_Doctor_Email").setValue(intent_phone.toString().trim());
         userRef.child("Appointment_Doctor_phone").setValue(intent_email.toString().trim());
         Toast.makeText(this, "Appointment Registered", Toast.LENGTH_SHORT).show();
+
+        your_name.setText("");
+        your_phone.setText("");
+        your_appoint_date.setText( sdf.format( new Date()));
+        your_appoint_reason.setText("");
+        //view.scrollBy(10,10);
+
+
     }
 }

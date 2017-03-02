@@ -1,9 +1,14 @@
 package com.example.samin.paitientmanagement.activity;
 
-
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -12,6 +17,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.samin.paitientmanagement.BuildConfig;
 import com.example.samin.paitientmanagement.R;
 import com.example.samin.paitientmanagement.fragment.AppointmentFragment;
 import com.example.samin.paitientmanagement.fragment.HomeFragment;
@@ -28,25 +36,22 @@ import com.example.samin.paitientmanagement.fragment.PatientFragment;
 import com.example.samin.paitientmanagement.fragment.ProfileFragment;
 import com.example.samin.paitientmanagement.fragment.SettingsFragment;
 import com.example.samin.paitientmanagement.other.CircleTransform;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
     private NavigationView navigationView;
     private DrawerLayout drawer;
-    private View navHeader;
     private ImageView imgNavHeaderBg, imgProfile;
     private TextView txtName, txtWebsite;
     private Toolbar toolbar;
     //private FloatingActionButton fab;
-
-    // urls to load navigation header background image
-    // and profile image
-    private static final String urlNavHeaderBg = "http://api.androidhive.info/images/nav-menu-header-bg.jpg";
-    private static final String urlProfileImg = "http://downloadicons.net/sites/default/files/user-icon-2722.png";
-
     // index to identify current nav menu item
     public static int navItemIndex = 0;
 
@@ -63,9 +68,15 @@ public class MainActivity extends AppCompatActivity {
     private String[] activityTitles;
 
     // flag to load home fragment when user presses back key
-    private boolean shouldLoadHomeFragOnBackPress = true;
+    //private boolean shouldLoadHomeFragOnBackPress = true;
     private Handler mHandler;
     private FirebaseAuth firebaseAuth;
+
+    public String UserID;
+    AlertDialog.Builder builder;
+    String check;
+    String version;
+
 
 
     @Override
@@ -75,8 +86,6 @@ public class MainActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-
         firebaseAuth = FirebaseAuth.getInstance();
         if(firebaseAuth.getCurrentUser() == null)
         {
@@ -85,8 +94,18 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(),login_activity.class));
         }
 
+        version = BuildConfig.VERSION_NAME;
+        //Shared Preference
+        /**
+         * Update - is the shared file name
+         * check will get updated value iff no updated value found
+         * it will take Base version as default value
+         */
+        SharedPreferences sharedPreferences = getSharedPreferences("Update", MODE_PRIVATE);
+        check =sharedPreferences.getString("update_later",version);
+        Log.d("LOGGED", " 1st Check value 4m Shared : " +check);
 
-
+        //Async Task
         mHandler = new Handler();
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -94,27 +113,17 @@ public class MainActivity extends AppCompatActivity {
        // fab = (FloatingActionButton) findViewById(R.id.fab);
 
         // Navigation view header
-        navHeader = navigationView.getHeaderView(0);
+        View navHeader = navigationView.getHeaderView(0);
         txtName = (TextView) navHeader.findViewById(R.id.name);
         txtWebsite = (TextView) navHeader.findViewById(R.id.website);
         imgNavHeaderBg = (ImageView) navHeader.findViewById(R.id.img_header_bg);
-        imgProfile = (ImageView) navHeader.findViewById(R.id.img_profile);
+        imgProfile = (ImageView) navHeader.findViewById(R.id.navBar_profile_image);
 
         // load toolbar titles from string resources
         activityTitles = getResources().getStringArray(R.array.nav_item_activity_titles);
 
         // load nav menu header data
         loadNavHeader();
-
-
-
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-        if (user != null) {
-            txtWebsite.setText(user.getEmail());
-            Toast.makeText(this, "Welcome  "+user.getEmail(), Toast.LENGTH_LONG).show();
-        }
-
-
 
         // initializing navigation menu
         setUpNavigationView();
@@ -124,34 +133,131 @@ public class MainActivity extends AppCompatActivity {
             CURRENT_TAG = TAG_HOME;
             loadHomeFragment();
         }
+
+
+
+        imgProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    navItemIndex = 5;
+                    CURRENT_TAG = TAG_PROFILE;
+                    loadHomeFragment();
+            }
+        });
+
+
+
     }
 
-    /***
-     * Load navigation menu header information
-     * like background image, profile image
-     * name, website, notifications action view (dot)
-     */
     private void loadNavHeader() {
-        // name, website
-        txtName.setText("Welcome,");
-        //txtWebsite.setText("www.samin_ali.com");
 
-        // loading header background image
-        Glide.with(this).load(urlNavHeaderBg)
+        Glide.with(this)
+                .load(R.drawable.nav_menu_header_bg)
                 .crossFade()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .into(imgNavHeaderBg);
 
-        // Loading profile image
-        Glide.with(this).load(urlProfileImg)
-                .crossFade()
-                .thumbnail(0.5f)
-                .bitmapTransform(new CircleTransform(this))
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(imgProfile);
+        final FirebaseUser user = firebaseAuth.getCurrentUser();
+        Toast.makeText(MainActivity.this, "Welcome  !!  ", Toast.LENGTH_LONG).show();
+        txtName.setText("Welcome,");
 
-        // showing dot next to notifications label
+        UserID = user.getEmail().replace("@", "").replace(".", "");
+        Firebase mRoofRef = new Firebase("https://patient-management-11e26.firebaseio.com/").child("User_Details").child(UserID);
+        mRoofRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                Map<String, String> map = dataSnapshot.getValue(Map.class);
+
+                String retrieve_name = map.get("Name");
+                String retrieve_url = map.get("Image_URL");
+                if (retrieve_name != null)
+                {
+                    if (retrieve_name.equals("Null"))
+                        txtWebsite.setText(user.getEmail());
+                    else
+                        txtWebsite.setText(retrieve_name);
+                }
+
+                if (retrieve_url != null)
+                {
+                    if (retrieve_url.equals("Null"))
+                    {
+                        Glide.with(getApplicationContext())
+                                .load(R.drawable.invalid_person_image)
+                                .crossFade()
+                                .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                                .into(imgProfile);
+                    }
+                    else
+                    {
+                        Glide.with(getApplicationContext())
+                                .load(retrieve_url)
+                                .crossFade()
+                                .thumbnail(0.5f)
+                                .bitmapTransform(new CircleTransform(getApplicationContext()))
+                                .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                                .into(imgProfile);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {   }
+        });
         navigationView.getMenu().getItem(3).setActionView(R.layout.menu_dot);
+
+
+       // final String version = BuildConfig.VERSION_NAME;
+        mRoofRef = new Firebase("https://patient-management-11e26.firebaseio.com/Update_APK");
+        mRoofRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Map<String, String> map = dataSnapshot.getValue(Map.class);
+                final String retrieve_url = map.get("Download_URL");
+                final String retrieve_version = map.get("Version");
+                final String retrieve_changelog = map.get("Changelog");
+
+
+                if (!check.equals(retrieve_version)) {
+                    //Log.d("LOGGED", "Inside IF " +check);
+                    builder = new AlertDialog.Builder(MainActivity.this);
+                    //builder.setMessage("A latest Version is Available ").setCancelable(true)
+                        builder.setMessage(Html.fromHtml(retrieve_changelog)).setCancelable(true)
+                                .setPositiveButton("Download", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent i = new Intent(Intent.ACTION_VIEW);
+                                        i.setData(Uri.parse(retrieve_url));
+                                        startActivity(i);
+                                    }
+                                })
+                                .setNegativeButton("Later", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Toast.makeText(MainActivity.this, "Check Settings to Update.", Toast.LENGTH_LONG).show();
+                                        SharedPreferences sharedPreferences = getSharedPreferences("Update", MODE_PRIVATE);
+                                        SharedPreferences.Editor mEditor = sharedPreferences.edit();
+                                        mEditor.putString("update_later", retrieve_version);
+                                        mEditor.apply();
+                                        //Log.d("LOGGED", "Updated value " +retrieve_version);
+                                        dialog.cancel();
+                                    }
+                                });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.setTitle("Update Available ! ");
+                    dialog.show();
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+
+
     }
 
     /***
@@ -212,29 +318,23 @@ public class MainActivity extends AppCompatActivity {
         switch (navItemIndex) {
             case 0:
                 // home
-                HomeFragment homeFragment = new HomeFragment();
-                return homeFragment;
+                return new HomeFragment();
             case 1:
                 // photos
-                AppointmentFragment  appointmentFragment = new AppointmentFragment();
-                return appointmentFragment;
+                return new AppointmentFragment();
             case 2:
                 // movies fragment
-                PatientFragment patientFragment = new PatientFragment();
-                return patientFragment;
+                return new PatientFragment();
             case 3:
                 // notifications fragment
-                NotificationFragment notificationFragment = new NotificationFragment();
-                return notificationFragment;
+                return new NotificationFragment();
 
             case 4:
                 // settings fragment
-                SettingsFragment settingsFragment = new SettingsFragment();
-                return settingsFragment;
+                return new SettingsFragment();
             case 5:
                 //ProfileFragment
-                ProfileFragment profileFragment = new ProfileFragment();
-                return profileFragment;
+                return new ProfileFragment();
             default:
                 return new HomeFragment();
         }
@@ -346,16 +446,17 @@ public class MainActivity extends AppCompatActivity {
 
         // This code loads home fragment when back key is pressed
         // when user is in other fragment than home
-        if (shouldLoadHomeFragOnBackPress) {
+       // if (shouldLoadHomeFragOnBackPress) {
             // checking if user is on other navigation menu
             // rather than home
-            if (navItemIndex != 0) {
+            if (navItemIndex != 0)
+            {
                 navItemIndex = 0;
                 CURRENT_TAG = TAG_HOME;
                 loadHomeFragment();
                 return;
             }
-        }
+       // }
 
         //super.onBackPressed();
         finish();
@@ -366,7 +467,7 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
 
         // show menu only when home fragment is selected
-        if (navItemIndex == 0) {
+        if (navItemIndex == 0 || navItemIndex==1 || navItemIndex==2 || navItemIndex==4 || navItemIndex==5) {
             getMenuInflater().inflate(R.menu.main, menu);
         }
 

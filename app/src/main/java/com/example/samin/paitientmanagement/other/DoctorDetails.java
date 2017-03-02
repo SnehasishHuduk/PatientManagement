@@ -6,59 +6,58 @@ import android.util.Log;
  * Created by samin on 11/6/2016.
  */
 public class DoctorDetails {
-    public DoctorDetails(int image_id, String name, String email,String phone, String spec)
+    private String Name, Email, Phone, Qualification, Image_Url;
+
+    public DoctorDetails(String name, String email, String phone, String qualification, String image_Url) {
+        Name = name;
+        Email = email;
+        Phone = phone;
+        Qualification = qualification;
+        Image_Url = image_Url;
+    }
+
+    public DoctorDetails()
     {
-        Log.d("DoctorDetails","Constractor Called");
-        this.setImage_id(image_id);
-        this.setName(name);
-        this.setEmail(email);
-        this.setPhone(phone);
-        this.setSpec(spec);
-    }
-    private int image_id;
-    private String name,email,phone,spec;
 
-    public int getImage_id() {
-        Log.d("DoctorDetails","getImage_id Called");
-        return image_id;
-    }
-
-    public void setImage_id(int image_id) {
-        Log.d("DoctorDetails","SetImage_id Called");
-        this.image_id = image_id;
     }
 
     public String getName() {
-        Log.d("DoctorDetails","getNameCalled");
-        return name;
+        return Name;
     }
 
     public void setName(String name) {
-        Log.d("DoctorDetails","SettImage_id Called");
-        this.name = name;
+        Name = name;
     }
 
     public String getEmail() {
-        return email;
+        return Email;
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        Email = email;
     }
 
-   public String getPhone() {
-       return phone;
-   }
+    public String getPhone() {
+        return Phone;
+    }
 
     public void setPhone(String phone) {
-        this.phone = phone;
+        Phone = phone;
     }
 
-    public String getSpec() {
-        return spec;
+    public String getQualification() {
+        return Qualification;
     }
 
-    public void setSpec(String spec) {
-        this.spec = spec;
+    public void setQualification(String qualification) {
+        Qualification = qualification;
+    }
+
+    public String getImage_Url() {
+        return Image_Url;
+    }
+
+    public void setImage_Url(String image_Url) {
+        Image_Url = image_Url;
     }
 }
