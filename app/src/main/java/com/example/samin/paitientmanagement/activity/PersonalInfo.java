@@ -1,15 +1,14 @@
 package com.example.samin.paitientmanagement.activity;
 
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -26,6 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -39,9 +39,9 @@ public class PersonalInfo extends AppCompatActivity
     private EditText your_name,your_phone,your_appoint_date,your_appoint_reason;
     private FirebaseAuth firebaseAuth;
     public String UserID;
-    private Firebase mRoofRef;
-    SimpleDateFormat sdf;
+    SimpleDateFormat current_date_format, current_time_format;
     CoordinatorLayout coordinatorLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +49,14 @@ public class PersonalInfo extends AppCompatActivity
         setContentView(R.layout.personal_info_activity_main);
         firebaseAuth = FirebaseAuth.getInstance();
 
+        current_date_format = new SimpleDateFormat( "dd/MM/yyyy" );
+        current_time_format = new SimpleDateFormat("h:mm a");
+
         your_name=(EditText)findViewById(R.id.appoint_Your_name);
         your_phone = (EditText)findViewById(R.id.appoint_Phone);
         your_appoint_date = (EditText)findViewById(R.id.appoint_Visit_Date);
         your_appoint_reason = (EditText)findViewById(R.id.appoint_Visit_reason);
+        your_appoint_date.setText(current_date_format.format( new Date()));
 
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator_layout_personal_info);
 
@@ -94,8 +98,7 @@ public class PersonalInfo extends AppCompatActivity
         personal_info_text.setTypeface(txt2);
         tv_make_appo.setTypeface(txt2);
 
-         sdf = new SimpleDateFormat( "dd/MM/yyyy" );
-        your_appoint_date.setText( sdf.format( new Date() ));
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -161,20 +164,23 @@ public class PersonalInfo extends AppCompatActivity
         }
         FirebaseUser user = firebaseAuth.getCurrentUser();
         UserID=user.getEmail().replace("@","").replace(".","");
-        mRoofRef= new Firebase("https://patient-management-11e26.firebaseio.com/");
+        Firebase mRoofRef = new Firebase("https://patient-management-11e26.firebaseio.com/");
         Firebase userRef = mRoofRef.child("User_Appointment").child(UserID).push();
         userRef.child("Patient_Name").setValue(getName);
         userRef.child("Patient_Phone").setValue(getPhone);
         userRef.child("Appointment_Date").setValue(getDate);
         userRef.child("Appointment_Reason").setValue(getReason);
-        userRef.child("Appointment_Doctor_Name").setValue(intent_name.toString().trim());
-        userRef.child("Appointment_Doctor_Email").setValue(intent_phone.toString().trim());
-        userRef.child("Appointment_Doctor_phone").setValue(intent_email.toString().trim());
+        userRef.child("Appointment_Doctor_Name").setValue(intent_name.trim());
+        userRef.child("Appointment_Doctor_Email").setValue(intent_phone.trim());
+        userRef.child("Appointment_Doctor_phone").setValue(intent_email.trim());
+        userRef.child("Creation_Time").setValue(current_time_format.format( new Date()));
+        userRef.child("Creation_Date").setValue(current_date_format.format( new Date()));
+        userRef.child("Request_Status").setValue("Pending");
         Toast.makeText(this, "Appointment Registered", Toast.LENGTH_SHORT).show();
 
         your_name.setText("");
         your_phone.setText("");
-        your_appoint_date.setText( sdf.format( new Date()));
+        your_appoint_date.setText( current_date_format.format( new Date()));
         your_appoint_reason.setText("");
         //view.scrollBy(10,10);
 

@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
     private Handler mHandler;
     private FirebaseAuth firebaseAuth;
 
-    public String UserID;
+    String UserID;
     AlertDialog.Builder builder;
     String check;
     String version;
@@ -220,34 +220,38 @@ public class MainActivity extends AppCompatActivity {
 
 
                 if (!check.equals(retrieve_version)) {
-                    //Log.d("LOGGED", "Inside IF " +check);
-                    builder = new AlertDialog.Builder(MainActivity.this);
+                    if (!retrieve_version.equals(version))
+                    {
+
+                        //Log.d("LOGGED", "Inside IF " +check);
+                        builder = new AlertDialog.Builder(MainActivity.this);
                     //builder.setMessage("A latest Version is Available ").setCancelable(true)
-                        builder.setMessage(Html.fromHtml(retrieve_changelog)).setCancelable(true)
-                                .setPositiveButton("Download", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Intent i = new Intent(Intent.ACTION_VIEW);
-                                        i.setData(Uri.parse(retrieve_url));
-                                        startActivity(i);
-                                    }
-                                })
-                                .setNegativeButton("Later", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Toast.makeText(MainActivity.this, "Check Settings to Update.", Toast.LENGTH_LONG).show();
-                                        SharedPreferences sharedPreferences = getSharedPreferences("Update", MODE_PRIVATE);
-                                        SharedPreferences.Editor mEditor = sharedPreferences.edit();
-                                        mEditor.putString("update_later", retrieve_version);
-                                        mEditor.apply();
-                                        //Log.d("LOGGED", "Updated value " +retrieve_version);
-                                        dialog.cancel();
-                                    }
-                                });
+                    builder.setMessage(Html.fromHtml(retrieve_changelog)).setCancelable(true)
+                            .setPositiveButton("Download", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent i = new Intent(Intent.ACTION_VIEW);
+                                    i.setData(Uri.parse(retrieve_url));
+                                    startActivity(i);
+                                }
+                            })
+                            .setNegativeButton("Later", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Toast.makeText(MainActivity.this, "Check Settings to Update.", Toast.LENGTH_LONG).show();
+                                    SharedPreferences sharedPreferences = getSharedPreferences("Update", MODE_PRIVATE);
+                                    SharedPreferences.Editor mEditor = sharedPreferences.edit();
+                                    mEditor.putString("update_later", retrieve_version);
+                                    mEditor.apply();
+                                    //Log.d("LOGGED", "Updated value " +retrieve_version);
+                                    dialog.cancel();
+                                }
+                            });
 
                     AlertDialog dialog = builder.create();
                     dialog.setTitle("Update Available ! ");
                     dialog.show();
+                }
                 }
             }
 
@@ -320,21 +324,21 @@ public class MainActivity extends AppCompatActivity {
                 // home
                 return new HomeFragment();
             case 1:
-                // photos
+
                 return new AppointmentFragment();
             case 2:
-                // movies fragment
                 return new PatientFragment();
             case 3:
                 // notifications fragment
                 return new NotificationFragment();
 
             case 4:
-                // settings fragment
-                return new SettingsFragment();
-            case 5:
                 //ProfileFragment
                 return new ProfileFragment();
+
+            case 5:
+                //settings fragment
+                return new SettingsFragment();
             default:
                 return new HomeFragment();
         }
@@ -376,15 +380,15 @@ public class MainActivity extends AppCompatActivity {
                         navItemIndex = 3;
                         CURRENT_TAG = TAG_NOTIFICATIONS;
                         break;
-                    case R.id.nav_settings:
+                    case R.id.nav_profile:
                         navItemIndex = 4;
+                        CURRENT_TAG = TAG_PROFILE;
+                        break;
+                    case R.id.nav_settings:
+                        navItemIndex = 5;
                         CURRENT_TAG = TAG_SETTINGS;
                         break;
 
-                    case R.id.nav_profile:
-                        navItemIndex = 5;
-                        CURRENT_TAG = TAG_PROFILE;
-                        break;
 
                     case R.id.nav_about_us:
                         // launch new intent instead of loading fragment
@@ -446,7 +450,6 @@ public class MainActivity extends AppCompatActivity {
 
         // This code loads home fragment when back key is pressed
         // when user is in other fragment than home
-       // if (shouldLoadHomeFragOnBackPress) {
             // checking if user is on other navigation menu
             // rather than home
             if (navItemIndex != 0)

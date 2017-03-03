@@ -52,6 +52,34 @@
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
     </style>
 
+    //privacy_policy Styles
+    <style name="privacy_policy_header" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">normal|bold</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
 
+    <style name="privacy_policy_body_item" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">18dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/Black</item>
+
+    </style>
+
+    <style name="privacy_policy_view_bar" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_height">2dp</item>
+        <item name="android:background">#ea2b94</item>
+    </style>
 
 </resources>

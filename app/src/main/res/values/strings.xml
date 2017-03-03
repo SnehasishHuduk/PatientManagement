@@ -50,13 +50,17 @@
     <string name="about_ok">OK</string>
 
     <string name="changelog_body">
-        <b><u>PM 1.9 - Changes:</u></b>\n
+        <b><u>PM 2.0 - Changes:</u></b>\n
+        &#8226; About us &amp; Privacy Policy page Completed \n
+        &#8226; OTA update Enabled \n\n
 
+        <b><u>PM 1.9 - Changes:</u></b>\n
         &#8226; Settings Tab will check for Updates and Changelog will Show There \n
         &#8226; Login User image will show in Navigation Drawer Header \n
         &#8226; Doctor Images Redesigned \n
         &#8226; Sign up, Login, ForgetPassword pages Should Works As Should be. [ There are Some Code Glitches ] \n
         &#8226; User Name will show in Navigation Drawer. \n \n
+
         <b><u>PM 1.8 - Changes:</u></b>\n
          &#8226; App size reduce from 12 MB to 5 MB.\n
          &#8226; All &amp; and Images Stored in Server \n
@@ -90,7 +94,43 @@
 
 </string>
 
+    <string name="information_about_you">
+        We may collect information from you under the following circumstances.\n \n
 
+        \ \ &#8226; If you fill out and submit a form on the website.\n
+        \ \ &#8226; If you access password restricted access areas of the website. Users may be identified by their login credentials. This information will only be used to direct users to the correct area of the website and to improve site content and usability.\n
+        \ \  &#8226; If you voluntarily provide information to us through email correspondence or by phone.
+    </string>
+    <string name="Who_We_Share_Your_Information_With">
+        We do not share personal information with third parties nor do we store any information about your visit to this website other than to analyse and optimise our content through the use of cookies.\n \n
+        You can turn off the use of cookies at anytime by changing your specific browser settings
+    </string>
+    <string name="Changes_To_This_Privacy_Statement">
+        We may change this privacy policy at any time. Whenever we revise this privacy policy, we will change the date on the notice to indicate when revisions were made.
+        By using our website and/or submitting personal information to us, you agree to the terms of this privacy policy as stated at the time you use the website and/or at the time you submit your personal information
+    </string>
+    <string name="Privacy_Policy_1st_paragraph">
+        We, at Patient Management Healthcare, are committed to protecting your privacy. \n\n
+        This privacy policy gives you information as to the types of personal information we collect, how we use that information and whom we may share it with.
+    </string>
+
+
+    <string name="home_test_text">Tata Main Hospital, the Medical Division of Tata Steel and its nine dispensaries at Jamshedpur provide curative healthcare services to the employees of Tata Steel and their families free of cost.
+        Apart from TMH and the dispensaries, out-location hospitals are located at Jamadoba, Noamundi and Sukhinda Mines and West Bokaro Collieries.
+        TMH also extends its facilities to non-entitled patients from Jamshedpur and its surrounding area.Tata Main Hospital, the Medical Division of Tata Steel
+        and its nine dispensaries at Jamshedpur provide curative healthcare services to the employees
+        of Tata Steel and their families free of cost.
+        Apart from TMH and the dispensaries, out-location hospitals are located at Jamadoba, Noamundi and Sukhinda Mines and West Bokaro Collieries.
+        TMH also extends its facilities to non-entitled patients from Jamshedpur and its surrounding area.Tata Main Hospital, the Medical Division of Tata Steel
+        and its nine dispensaries at Jamshedpur provide curative healthcare services to the employees
+        of Tata Steel and their families free of cost. Apart from TMH
+        and the dispensaries, out-location hospitals are located at Jamadoba, Noamundi and Sukhinda Mines and West Bokaro Collieries. TMH also extends its facilities to non-entitled patients from Jamshedpur and its surrounding area.
+        Tata Main Hospital, the Medical Division of Tata Steel and its nine dispensaries at Jamshedpur provide curative healthcare services to the employees of Tata Steel and their families free of cost. Apart from TMH and the dispensaries,
+        out-location hospitals are located at Jamadoba, Noamundi and Sukhinda Mines and West Bokaro Collieries. TMH also extends its facilities to non-entitled patients from Jamshedpur and its surrounding area.Tata Main Hospital, the Medical Division
+        of Tata Steel and its nine dispensaries at Jamshedpur provide curative healthcare services to the employees of Tata Steel and their families free of cost. Apart from TMH and the dispensaries, out-location hospitals are located
+        at Jamadoba, Noamundi and Sukhinda Mines and West Bokaro Collieries. TMH also extends its facilities to non-entitled patients from Jamshedpur and its surrounding area. Tata Main Hospital, the Medical Division of Tata Steel and its nine dispensaries
+        at Jamshedpur provide curative healthcare services to the employees of Tata Steel and their families free of cost. Apart from TMH and the dispensaries, out-location hospitals are located at Jamadoba, Noamundi and Sukhinda Mines and West Bokaro Collieries.
+        TMH also extends its facilities to non-entitled patients from Jamshedpur and its surrounding area.</string>
 
 
 </resources>

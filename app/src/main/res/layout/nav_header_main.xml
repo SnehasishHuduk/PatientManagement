@@ -27,8 +27,10 @@
                 android:id="@+id/navBar_profile_image"
                 android:layout_width="@dimen/profile_width"
                 android:layout_height="@dimen/profile_height"
+                android:layout_marginTop="15dp"
                 android:paddingTop="@dimen/nav_header_vertical_spacing"
-                android:scaleType="fitXY" />
+                android:scaleType="fitXY"
+                android:src="@drawable/invalid_person_image"/>
                 <!--android:adjustViewBounds="true"-->
 
 
@@ -42,7 +44,7 @@
 
         <TextView
             android:id="@+id/website"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
     </LinearLayout>

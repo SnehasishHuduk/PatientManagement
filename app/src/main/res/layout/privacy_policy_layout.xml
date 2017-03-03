@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/privacy_policy_header"
+            android:text="Privacy Policy "
+             />
+        <View
+            android:id="@+id/view1"
+            android:layout_width="match_parent"
+            style="@style/privacy_policy_view_bar"
+            />
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/privacy_policy_body_item"
+            android:text="@string/Privacy_Policy_1st_paragraph"
+            android:textAlignment="viewStart" />
+
+
+
+        <TextView
+            android:text="Information About You"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView5"
+            style="@style/privacy_policy_header" />
+        <View
+            android:id="@+id/view2"
+            android:layout_width="match_parent"
+            style="@style/privacy_policy_view_bar"
+            />
+        <TextView
+            android:text="@string/information_about_you"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/privacy_policy_body_item"
+            android:id="@+id/textView7" />
+
+
+
+        <TextView
+            android:text="Who We Share Your Information With"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView6"
+            style="@style/privacy_policy_header" />
+        <View
+            android:id="@+id/view3"
+            android:layout_width="match_parent"
+            style="@style/privacy_policy_view_bar"
+            />
+        <TextView
+            android:text="@string/Who_We_Share_Your_Information_With"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/privacy_policy_body_item"
+            android:id="@+id/textView8" />
+
+
+
+        <TextView
+            android:text="Changes To This Privacy Statement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView9"
+            style="@style/privacy_policy_header" />
+        <View
+            android:id="@+id/view4"
+            android:layout_width="match_parent"
+            style="@style/privacy_policy_view_bar"
+            />
+        <TextView
+            android:text="@string/Changes_To_This_Privacy_Statement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/privacy_policy_body_item"
+            android:id="@+id/textView10" />
+
+
+    </LinearLayout>
+</ScrollView>
